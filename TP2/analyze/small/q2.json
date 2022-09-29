@@ -1,0 +1,129 @@
+[
+  {
+    "Plan": {
+      "Node Type": "Group",
+      "Parallel Aware": false,
+      "Async Capable": false,
+      "Startup Cost": 7887120.38,
+      "Total Cost": 13190067.07,
+      "Plan Rows": 10957247,
+      "Plan Width": 64,
+      "Group Key": ["(split_part((p1.nomprenom)::text, '*'::text, 1))", "(split_part(split_part(replace((p1.nomprenom)::text, '/'::text, ' '::text), '*'::text, 2), ' '::text, 1))"],
+      "Plans": [
+        {
+          "Node Type": "Gather Merge",
+          "Parent Relationship": "Outer",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 7887120.38,
+          "Total Cost": 12970922.13,
+          "Plan Rows": 21914494,
+          "Plan Width": 64,
+          "Workers Planned": 2,
+          "Plans": [
+            {
+              "Node Type": "Group",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 7886120.36,
+              "Total Cost": 10440445.74,
+              "Plan Rows": 10957247,
+              "Plan Width": 64,
+              "Group Key": ["(split_part((p1.nomprenom)::text, '*'::text, 1))", "(split_part(split_part(replace((p1.nomprenom)::text, '/'::text, ' '::text), '*'::text, 2), ' '::text, 1))"],
+              "Plans": [
+                {
+                  "Node Type": "Merge Join",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Join Type": "Inner",
+                  "Startup Cost": 7886120.36,
+                  "Total Cost": 10169515.18,
+                  "Plan Rows": 32271618,
+                  "Plan Width": 64,
+                  "Inner Unique": false,
+                  "Merge Cond": "(((split_part((p1.nomprenom)::text, '*'::text, 1)) = (split_part((p2.nomprenom)::text, '*'::text, 1))) AND ((split_part(split_part(replace((p1.nomprenom)::text, '/'::text, ' '::text), '*'::text, 2), ' '::text, 1)) = (split_part(split_part(replace((p2.nomprenom)::text, '/'::text, ' '::text), '*'::text, 2), ' '::text, 1))) AND ((substr((p1.datenaiss)::text, 1, 4)) = (substr((p2.datenaiss)::text, 1, 4))))",
+                  "Join Filter": "((p1.lieunaiss)::text <> (p2.lieunaiss)::text)",
+                  "Plans": [
+                    {
+                      "Node Type": "Sort",
+                      "Parent Relationship": "Outer",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 2207162.18,
+                      "Total Cost": 2233110.25,
+                      "Plan Rows": 10379231,
+                      "Plan Width": 39,
+                      "Sort Key": ["(split_part((p1.nomprenom)::text, '*'::text, 1))", "(split_part(split_part(replace((p1.nomprenom)::text, '/'::text, ' '::text), '*'::text, 2), ' '::text, 1))", "(substr((p1.datenaiss)::text, 1, 4))"],
+                      "Plans": [
+                        {
+                          "Node Type": "Seq Scan",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": true,
+                          "Async Capable": false,
+                          "Relation Name": "personne",
+                          "Alias": "p1",
+                          "Startup Cost": 0.00,
+                          "Total Cost": 429992.31,
+                          "Plan Rows": 10379231,
+                          "Plan Width": 39
+                        }
+                      ]
+                    },
+                    {
+                      "Node Type": "Materialize",
+                      "Parent Relationship": "Inner",
+                      "Parallel Aware": false,
+                      "Async Capable": false,
+                      "Startup Cost": 5678958.18,
+                      "Total Cost": 5803508.95,
+                      "Plan Rows": 24910154,
+                      "Plan Width": 39,
+                      "Plans": [
+                        {
+                          "Node Type": "Sort",
+                          "Parent Relationship": "Outer",
+                          "Parallel Aware": false,
+                          "Async Capable": false,
+                          "Startup Cost": 5678958.18,
+                          "Total Cost": 5741233.57,
+                          "Plan Rows": 24910154,
+                          "Plan Width": 39,
+                          "Sort Key": ["(split_part((p2.nomprenom)::text, '*'::text, 1))", "(split_part(split_part(replace((p2.nomprenom)::text, '/'::text, ' '::text), '*'::text, 2), ' '::text, 1))", "(substr((p2.datenaiss)::text, 1, 4))"],
+                          "Plans": [
+                            {
+                              "Node Type": "Seq Scan",
+                              "Parent Relationship": "Outer",
+                              "Parallel Aware": false,
+                              "Async Capable": false,
+                              "Relation Name": "personne",
+                              "Alias": "p2",
+                              "Startup Cost": 0.00,
+                              "Total Cost": 575301.54,
+                              "Plan Rows": 24910154,
+                              "Plan Width": 39
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "JIT": {
+      "Functions": 25,
+      "Options": {
+        "Inlining": true,
+        "Optimization": true,
+        "Expressions": true,
+        "Deforming": true
+      }
+    }
+  }
+]

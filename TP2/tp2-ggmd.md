@@ -36,7 +36,6 @@ psql -h localhost -U etum2 -d insee -f ~/tp2/sql/import-data.sql
 #### Q1 - Le top 10 des personnes déclarées mortes le plus grand nombre de fois
 
 ```sql
-EXPLAIN (analyse, verbose, costs, buffers, timing, summary, format json)
 SELECT p.nomprenom, p.datenaiss, p.lieunaiss, COUNT(p.datedeces) as nb
 FROM personne p
 GROUP BY p.nomprenom, p.datenaiss, p.lieunaiss
@@ -209,10 +208,22 @@ Une des solutions est d'augmenter l'espace attribué à cette VM.
 C - Traitement des requêtes sur grp-XX-medium
 ---
 
+#### Les plans d'exécution:
+
+##### Q1 (temps d'exéc du `EXPLAIN`: )
+
+##### Q2 (temps d'exéc du `EXPLAIN`: 38m 35s)
+
 ##### Q3 (temps d'exéc du `EXPLAIN`: 11m 21s)
 
 D - Traitement des requêtes sur grp-XX-large
 ---
+
+#### Les plans d'exécution:
+
+##### Q1 (temps d'exéc du `EXPLAIN`: )
+
+##### Q2 (temps d'exéc du `EXPLAIN`: 13m 20s)
 
 ##### Q3 (temps d'exéc du `EXPLAIN`: 8m 21s)
 
