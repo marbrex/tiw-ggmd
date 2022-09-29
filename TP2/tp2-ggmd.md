@@ -8,6 +8,8 @@ Binôme:
 - Eldar Kasmamytov p1712650
 - Jérémy Gau p2111894
 
+[Dépot du code](https://forge.univ-lyon1.fr/p2111894/ggmd_tp2_code.git)
+
 A - Les requêtes SQL
 ---
 
