@@ -1,6 +1,6 @@
 ---
-tags: [GGMD, TIW]
-aliases: ["GGMD TP1", "TP1 GGMD"]
+tags: [TP]
+aliases: ["GGMD TP1", "TP1 GGMD", "TP1"]
 ---
 
 A & B - Fragmentation

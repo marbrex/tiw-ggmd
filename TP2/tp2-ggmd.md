@@ -1,6 +1,6 @@
 ---
-tags: [GGMD, TIW]
-aliases: ["GGMD TP2", "TP2 GGMD"]
+tags: [TP]
+aliases: ["GGMD TP2", "TP2 GGMD", "TP2"]
 ---
 
 # TP2 de GGMD
