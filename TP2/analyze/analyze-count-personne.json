@@ -1,0 +1,259 @@
+                                                                  QUERY PLAN                                                                   
+-----------------------------------------------------------------------------------------------------------------------------------------------
+ [                                                                                                                                            +
+   {                                                                                                                                          +
+     "Plan": {                                                                                                                                +
+       "Node Type": "Aggregate",                                                                                                              +
+       "Strategy": "Plain",                                                                                                                   +
+       "Partial Mode": "Finalize",                                                                                                            +
+       "Parallel Aware": false,                                                                                                               +
+       "Async Capable": false,                                                                                                                +
+       "Startup Cost": 456940.60,                                                                                                             +
+       "Total Cost": 456940.61,                                                                                                               +
+       "Plan Rows": 1,                                                                                                                        +
+       "Plan Width": 8,                                                                                                                       +
+       "Actual Startup Time": 1277.806,                                                                                                       +
+       "Actual Total Time": 1284.243,                                                                                                         +
+       "Actual Rows": 1,                                                                                                                      +
+       "Actual Loops": 1,                                                                                                                     +
+       "Output": ["count(*)"],                                                                                                                +
+       "Shared Hit Blocks": 15991,                                                                                                            +
+       "Shared Read Blocks": 310209,                                                                                                          +
+       "Shared Dirtied Blocks": 0,                                                                                                            +
+       "Shared Written Blocks": 0,                                                                                                            +
+       "Local Hit Blocks": 0,                                                                                                                 +
+       "Local Read Blocks": 0,                                                                                                                +
+       "Local Dirtied Blocks": 0,                                                                                                             +
+       "Local Written Blocks": 0,                                                                                                             +
+       "Temp Read Blocks": 0,                                                                                                                 +
+       "Temp Written Blocks": 0,                                                                                                              +
+       "Plans": [                                                                                                                             +
+         {                                                                                                                                    +
+           "Node Type": "Gather",                                                                                                             +
+           "Parent Relationship": "Outer",                                                                                                    +
+           "Parallel Aware": false,                                                                                                           +
+           "Async Capable": false,                                                                                                            +
+           "Startup Cost": 456940.39,                                                                                                         +
+           "Total Cost": 456940.60,                                                                                                           +
+           "Plan Rows": 2,                                                                                                                    +
+           "Plan Width": 8,                                                                                                                   +
+           "Actual Startup Time": 1236.580,                                                                                                   +
+           "Actual Total Time": 1284.206,                                                                                                     +
+           "Actual Rows": 3,                                                                                                                  +
+           "Actual Loops": 1,                                                                                                                 +
+           "Output": ["(PARTIAL count(*))"],                                                                                                  +
+           "Workers Planned": 2,                                                                                                              +
+           "Workers Launched": 2,                                                                                                             +
+           "Single Copy": false,                                                                                                              +
+           "Shared Hit Blocks": 15991,                                                                                                        +
+           "Shared Read Blocks": 310209,                                                                                                      +
+           "Shared Dirtied Blocks": 0,                                                                                                        +
+           "Shared Written Blocks": 0,                                                                                                        +
+           "Local Hit Blocks": 0,                                                                                                             +
+           "Local Read Blocks": 0,                                                                                                            +
+           "Local Dirtied Blocks": 0,                                                                                                         +
+           "Local Written Blocks": 0,                                                                                                         +
+           "Temp Read Blocks": 0,                                                                                                             +
+           "Temp Written Blocks": 0,                                                                                                          +
+           "Plans": [                                                                                                                         +
+             {                                                                                                                                +
+               "Node Type": "Aggregate",                                                                                                      +
+               "Strategy": "Plain",                                                                                                           +
+               "Partial Mode": "Partial",                                                                                                     +
+               "Parent Relationship": "Outer",                                                                                                +
+               "Parallel Aware": false,                                                                                                       +
+               "Async Capable": false,                                                                                                        +
+               "Startup Cost": 455940.39,                                                                                                     +
+               "Total Cost": 455940.40,                                                                                                       +
+               "Plan Rows": 1,                                                                                                                +
+               "Plan Width": 8,                                                                                                               +
+               "Actual Startup Time": 1232.314,                                                                                               +
+               "Actual Total Time": 1232.316,                                                                                                 +
+               "Actual Rows": 1,                                                                                                              +
+               "Actual Loops": 3,                                                                                                             +
+               "Output": ["PARTIAL count(*)"],                                                                                                +
+               "Shared Hit Blocks": 15991,                                                                                                    +
+               "Shared Read Blocks": 310209,                                                                                                  +
+               "Shared Dirtied Blocks": 0,                                                                                                    +
+               "Shared Written Blocks": 0,                                                                                                    +
+               "Local Hit Blocks": 0,                                                                                                         +
+               "Local Read Blocks": 0,                                                                                                        +
+               "Local Dirtied Blocks": 0,                                                                                                     +
+               "Local Written Blocks": 0,                                                                                                     +
+               "Temp Read Blocks": 0,                                                                                                         +
+               "Temp Written Blocks": 0,                                                                                                      +
+               "Workers": [                                                                                                                   +
+                 {                                                                                                                            +
+                   "Worker Number": 0,                                                                                                        +
+                   "Actual Startup Time": 1209.591,                                                                                           +
+                   "Actual Total Time": 1209.592,                                                                                             +
+                   "Actual Rows": 1,                                                                                                          +
+                   "Actual Loops": 1,                                                                                                         +
+                   "JIT": {                                                                                                                   +
+                     "Functions": 2,                                                                                                          +
+                     "Options": {                                                                                                             +
+                       "Inlining": false,                                                                                                     +
+                       "Optimization": false,                                                                                                 +
+                       "Expressions": true,                                                                                                   +
+                       "Deforming": true                                                                                                      +
+                     },                                                                                                                       +
+                     "Timing": {                                                                                                              +
+                       "Generation": 0.193,                                                                                                   +
+                       "Inlining": 0.000,                                                                                                     +
+                       "Optimization": 0.101,                                                                                                 +
+                       "Emission": 1.851,                                                                                                     +
+                       "Total": 2.145                                                                                                         +
+                     }                                                                                                                        +
+                   },                                                                                                                         +
+                   "Shared Hit Blocks": 5867,                                                                                                 +
+                   "Shared Read Blocks": 101670,                                                                                              +
+                   "Shared Dirtied Blocks": 0,                                                                                                +
+                   "Shared Written Blocks": 0,                                                                                                +
+                   "Local Hit Blocks": 0,                                                                                                     +
+                   "Local Read Blocks": 0,                                                                                                    +
+                   "Local Dirtied Blocks": 0,                                                                                                 +
+                   "Local Written Blocks": 0,                                                                                                 +
+                   "Temp Read Blocks": 0,                                                                                                     +
+                   "Temp Written Blocks": 0                                                                                                   +
+                 },                                                                                                                           +
+                 {                                                                                                                            +
+                   "Worker Number": 1,                                                                                                        +
+                   "Actual Startup Time": 1251.173,                                                                                           +
+                   "Actual Total Time": 1251.175,                                                                                             +
+                   "Actual Rows": 1,                                                                                                          +
+                   "Actual Loops": 1,                                                                                                         +
+                   "JIT": {                                                                                                                   +
+                     "Functions": 2,                                                                                                          +
+                     "Options": {                                                                                                             +
+                       "Inlining": false,                                                                                                     +
+                       "Optimization": false,                                                                                                 +
+                       "Expressions": true,                                                                                                   +
+                       "Deforming": true                                                                                                      +
+                     },                                                                                                                       +
+                     "Timing": {                                                                                                              +
+                       "Generation": 0.252,                                                                                                   +
+                       "Inlining": 0.000,                                                                                                     +
+                       "Optimization": 0.119,                                                                                                 +
+                       "Emission": 1.863,                                                                                                     +
+                       "Total": 2.234                                                                                                         +
+                     }                                                                                                                        +
+                   },                                                                                                                         +
+                   "Shared Hit Blocks": 1391,                                                                                                 +
+                   "Shared Read Blocks": 103185,                                                                                              +
+                   "Shared Dirtied Blocks": 0,                                                                                                +
+                   "Shared Written Blocks": 0,                                                                                                +
+                   "Local Hit Blocks": 0,                                                                                                     +
+                   "Local Read Blocks": 0,                                                                                                    +
+                   "Local Dirtied Blocks": 0,                                                                                                 +
+                   "Local Written Blocks": 0,                                                                                                 +
+                   "Temp Read Blocks": 0,                                                                                                     +
+                   "Temp Written Blocks": 0                                                                                                   +
+                 }                                                                                                                            +
+               ],                                                                                                                             +
+               "Plans": [                                                                                                                     +
+                 {                                                                                                                            +
+                   "Node Type": "Seq Scan",                                                                                                   +
+                   "Parent Relationship": "Outer",                                                                                            +
+                   "Parallel Aware": true,                                                                                                    +
+                   "Async Capable": false,                                                                                                    +
+                   "Relation Name": "personne",                                                                                               +
+                   "Schema": "public",                                                                                                        +
+                   "Alias": "personne",                                                                                                       +
+                   "Startup Cost": 0.00,                                                                                                      +
+                   "Total Cost": 429992.31,                                                                                                   +
+                   "Plan Rows": 10379231,                                                                                                     +
+                   "Plan Width": 0,                                                                                                           +
+                   "Actual Startup Time": 0.017,                                                                                              +
+                   "Actual Total Time": 790.032,                                                                                              +
+                   "Actual Rows": 8305556,                                                                                                    +
+                   "Actual Loops": 3,                                                                                                         +
+                   "Output": ["nomprenom", "sexe", "datenaiss", "lieunaiss", "commnaiss", "paysnaiss", "datedeces", "lieudeces", "actedeces"],+
+                   "Shared Hit Blocks": 15991,                                                                                                +
+                   "Shared Read Blocks": 310209,                                                                                              +
+                   "Shared Dirtied Blocks": 0,                                                                                                +
+                   "Shared Written Blocks": 0,                                                                                                +
+                   "Local Hit Blocks": 0,                                                                                                     +
+                   "Local Read Blocks": 0,                                                                                                    +
+                   "Local Dirtied Blocks": 0,                                                                                                 +
+                   "Local Written Blocks": 0,                                                                                                 +
+                   "Temp Read Blocks": 0,                                                                                                     +
+                   "Temp Written Blocks": 0,                                                                                                  +
+                   "Workers": [                                                                                                               +
+                     {                                                                                                                        +
+                       "Worker Number": 0,                                                                                                    +
+                       "Actual Startup Time": 0.024,                                                                                          +
+                       "Actual Total Time": 756.050,                                                                                          +
+                       "Actual Rows": 8214611,                                                                                                +
+                       "Actual Loops": 1,                                                                                                     +
+                       "Shared Hit Blocks": 5867,                                                                                             +
+                       "Shared Read Blocks": 101670,                                                                                          +
+                       "Shared Dirtied Blocks": 0,                                                                                            +
+                       "Shared Written Blocks": 0,                                                                                            +
+                       "Local Hit Blocks": 0,                                                                                                 +
+                       "Local Read Blocks": 0,                                                                                                +
+                       "Local Dirtied Blocks": 0,                                                                                             +
+                       "Local Written Blocks": 0,                                                                                             +
+                       "Temp Read Blocks": 0,                                                                                                 +
+                       "Temp Written Blocks": 0                                                                                               +
+                     },                                                                                                                       +
+                     {                                                                                                                        +
+                       "Worker Number": 1,                                                                                                    +
+                       "Actual Startup Time": 0.013,                                                                                          +
+                       "Actual Total Time": 831.656,                                                                                          +
+                       "Actual Rows": 7986813,                                                                                                +
+                       "Actual Loops": 1,                                                                                                     +
+                       "Shared Hit Blocks": 1391,                                                                                             +
+                       "Shared Read Blocks": 103185,                                                                                          +
+                       "Shared Dirtied Blocks": 0,                                                                                            +
+                       "Shared Written Blocks": 0,                                                                                            +
+                       "Local Hit Blocks": 0,                                                                                                 +
+                       "Local Read Blocks": 0,                                                                                                +
+                       "Local Dirtied Blocks": 0,                                                                                             +
+                       "Local Written Blocks": 0,                                                                                             +
+                       "Temp Read Blocks": 0,                                                                                                 +
+                       "Temp Written Blocks": 0                                                                                               +
+                     }                                                                                                                        +
+                   ]                                                                                                                          +
+                 }                                                                                                                            +
+               ]                                                                                                                              +
+             }                                                                                                                                +
+           ]                                                                                                                                  +
+         }                                                                                                                                    +
+       ]                                                                                                                                      +
+     },                                                                                                                                       +
+     "Planning": {                                                                                                                            +
+       "Shared Hit Blocks": 27,                                                                                                               +
+       "Shared Read Blocks": 0,                                                                                                               +
+       "Shared Dirtied Blocks": 0,                                                                                                            +
+       "Shared Written Blocks": 0,                                                                                                            +
+       "Local Hit Blocks": 0,                                                                                                                 +
+       "Local Read Blocks": 0,                                                                                                                +
+       "Local Dirtied Blocks": 0,                                                                                                             +
+       "Local Written Blocks": 0,                                                                                                             +
+       "Temp Read Blocks": 0,                                                                                                                 +
+       "Temp Written Blocks": 0                                                                                                               +
+     },                                                                                                                                       +
+     "Planning Time": 0.345,                                                                                                                  +
+     "Triggers": [                                                                                                                            +
+     ],                                                                                                                                       +
+     "JIT": {                                                                                                                                 +
+       "Functions": 8,                                                                                                                        +
+       "Options": {                                                                                                                           +
+         "Inlining": false,                                                                                                                   +
+         "Optimization": false,                                                                                                               +
+         "Expressions": true,                                                                                                                 +
+         "Deforming": true                                                                                                                    +
+       },                                                                                                                                     +
+       "Timing": {                                                                                                                            +
+         "Generation": 0.763,                                                                                                                 +
+         "Inlining": 0.000,                                                                                                                   +
+         "Optimization": 0.347,                                                                                                               +
+         "Emission": 6.284,                                                                                                                   +
+         "Total": 7.394                                                                                                                       +
+       }                                                                                                                                      +
+     },                                                                                                                                       +
+     "Execution Time": 1301.645                                                                                                               +
+   }                                                                                                                                          +
+ ]
+(1 row)
+
