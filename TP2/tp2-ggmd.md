@@ -166,10 +166,10 @@ EXPLAIN (analyse, verbose, costs, buffers, timing, summary, format json)
 et en les éditant sur [Explain Dalibo](https://explain.dalibo.com), on obtient les résultats suivants:
 
 ##### La requête Q1:
-![Q1](q1-small-plan-exec-no-optim.png)
+![Q1](assets/q1-small-plan-exec-no-optim.png)
 
 ##### La requête Q3:
-![Q3](q3-small-plan-exec-no-optim.png)
+![Q3](assets/q3-small-plan-exec-no-optim.png)
 
 ### 2 - L'exécution d'une requête qui n'a pas pu aboutir
 
@@ -182,7 +182,7 @@ L'exécution de la requête **Q2** entraîne une erreur:
 L'erreur est survenue à cause d'**espace de stockage insuffisant** pour sauvegarder des résultats intermédiaires de la requête.
 
 #### Le plan d'exécution de la Q2:
-![Q2](q2-small-plan-exec-error.png)
+![Q2](assets/q2-small-plan-exec-error.png)
 
 ### 3 - Solutions possibles
 
