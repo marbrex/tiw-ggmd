@@ -33,7 +33,7 @@ psql -h localhost -U etum2 -d insee -f ~/tp2/sql/import-data.sql
 
 ### 3 - Les requêtes SQL
 
-#### Q1
+#### Q1 - Le top 10 des personnes déclarées mortes le plus grand nombre de fois
 
 ```sql
 EXPLAIN (analyse, verbose, costs, buffers, timing, summary, format json)
@@ -48,7 +48,7 @@ LIMIT 10;
 - Medium: 6m 43s
 - Large: 1m 12s
 
-#### Q2
+#### Q2 - Les homonymes (même nom et même premier prénom) qui sont nés la même année
 
 ```sql
 SELECT split_part(p1.nomprenom, '*', 1) as nom, 
@@ -61,11 +61,13 @@ FROM personne p1
 GROUP BY nom, prenom;
 ```
 
-- Small: échoue (voir la section B.2)
-- Medium: 
-- Large: 
+Retourne au total **493 783 tuples**
 
-#### Q3
+- Small: échoue (voir la section B.2)
+- Medium: 31m 24s (1 page avec 500 tuples)
+- Large: 4m 26s (1 page avec 500 tuples) et **17m 54s** (tous les tuples)
+
+#### Q3 - La durée de vie moyenne des personnes selon leur région de naissance
 
 ```sql
 SELECT r.reg,
@@ -80,9 +82,12 @@ GROUP BY r.reg, r.nom
 ORDER BY age_moyen DESC;
 ```
 
-- Small: 
-- Medium: 
-- Large: 
+Retourne bien **18 tuples**
+
+Les temps d'exécution de la requête:
+- Small: 10m 39s
+- Medium: 11m 15s
+- Large: 5m 48s 
 
 Pour pouvoir utiliser la fonction `TO_DATE` sans aucun problème, nous avons créé 2 fonctions SQL auxiliaires qui ont pour but de produire une vue `personne_clean` qui ne contient que des **données "propres"** (éliminer les dates pas existantes, par exemple: 30 février).
 
@@ -142,6 +147,8 @@ END;
 $function$;
 ```
 
+La création des 2 fonctions auxiliaires et de la vue prends moins d'une seconde (en règle générale, <500ms).
+
 ### 4 - Les valeurs des paramètres des fichiers de configuration
 
 Le seul paramètre actif dans les configurations des VMs est:
@@ -165,10 +172,10 @@ EXPLAIN (analyse, verbose, costs, buffers, timing, summary, format json)
 ```
 et en les éditant sur [Explain Dalibo](https://explain.dalibo.com), on obtient les résultats suivants:
 
-##### La requête Q1:
+##### La requête Q1 (temps d'exéc du `EXPLAIN`: 14m 17s):
 ![Q1](assets/q1-small-plan-exec-no-optim.png)
 
-##### La requête Q3:
+##### La requête Q3 (temps d'exéc du `EXPLAIN`: 11m 11s):
 ![Q3](assets/q3-small-plan-exec-no-optim.png)
 
 ### 2 - L'exécution d'une requête qui n'a pas pu aboutir
@@ -196,4 +203,16 @@ Filesystem      Size  Used Avail Use% Mounted on
 Une des solutions est d'augmenter l'espace attribué à cette VM.
 
 ### 4 - Appliquer un protocole de résolution
+
+
+
+C - Traitement des requêtes sur grp-XX-medium
+---
+
+##### Q3 (temps d'exéc du `EXPLAIN`: 11m 21s)
+
+D - Traitement des requêtes sur grp-XX-large
+---
+
+##### Q3 (temps d'exéc du `EXPLAIN`: 8m 21s)
 
