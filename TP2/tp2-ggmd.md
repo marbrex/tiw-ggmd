@@ -206,6 +206,19 @@ Une des solutions est d'augmenter l'espace attribué à cette VM.
 ### 4 - Appliquer un protocole de résolution
 
 
+#### Expérimentations GGMD1 - configuration 
+
+shared_buffers:             128MB     -> 1024MB
+effective_cache_size:       unsued    -> 1024MB
+wal_sync_method             unused    -> fsync
+wal_buffers                 unused    -> -1
+max_connections             100       -> 10
+work_mem                    unused    -> 512MB
+maintenance_work_mem        unused    -> 1024MB
+autovacuum_work_mem         unused    -> -1
+autovacuum                  unused    -> on
+track_counts                unused    -> on
+
 
 C - Traitement des requêtes sur grp-XX-medium
 ---
