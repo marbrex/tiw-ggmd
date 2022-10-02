@@ -31,9 +31,9 @@ Erreur générée:
 Execution time: 6m 16s  
 Planning time: 8,4ms  
 Cout : 19 300 000  
-[Plan d'exécution json](plan_execution/small/q3/Q3_small_base_on_personne.json)  
-[Plan d'exécution image](plan_execution/small/q3/Q3_small_base_on_personne.png)  
-[Statistiques](plan_execution/small/q3/Q3_small_base_on_personne_stats.png)  
+[Plan d'exécution json](plan_execution/small/q3/Q3_small_base_on_personne_clean.json)  
+[Plan d'exécution image](plan_execution/small/q3/Q3_small_base_on_personne_clean.png)  
+[Statistiques](plan_execution/small/q3/Q3_small_base_on_personne_clean_stats.png)  
 
 ## Expérimentations GGMD1 - Index 
 
@@ -57,9 +57,9 @@ Cout :
 Execution time:   
 Planning time:   
 Cout :  
-[Plan d'exécution json](plan_execution/small/q3/Q3_small_index_on_personne.json)  
-[Plan d'exécution image](plan_execution/small/q3/Q3_small_index_on_personne.png)  
-[Statistiques](plan_execution/small/q3/Q3_small_index_on_personne_stats.png)  
+[Plan d'exécution json](plan_execution/small/q3/Q3_small_index_on_personne_clean.json)  
+[Plan d'exécution image](plan_execution/small/q3/Q3_small_index_on_personne_clean.png)  
+[Statistiques](plan_execution/small/q3/Q3_small_index_on_personne_stats_clean.png)  
 
 ## Expérimentations GGMD1 - configuration 
 
