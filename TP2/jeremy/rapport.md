@@ -272,3 +272,12 @@ Cout : 3 890 000
 [Plan d'exécution image](plan_execution/medium/q1/Q1_medium_config_opti_on_personne.png)  
 [Statistiques](plan_execution/medium/q1/Q1_medium_config_opti_on_personne_stats.png)  
 
+### Q2
+Execution time: 22m 45s  
+Planning time: 1,16ms  
+Cout : 11 500 000  
+[Plan d'exécution json](plan_execution/medium/q2/Q2_medium_config_opti_on_personne.json)  
+[Plan d'exécution image](plan_execution/medium/q2/Q2_medium_config_opti_on_personne.png)  
+[Statistiques](plan_execution/medium/q2/Q2_medium_config_opti_on_personne_stats.png)  
+
+Le temps d'éxécution, le temps de planification et le cout sont diminués.
