@@ -1,7 +1,5 @@
 # A - Les requêtes SQL
 
-[Voir scripts/requete.sql](scripts/requete.sql)
-
 ## Q1. Quel est le top 10 des personnes déclarées mortes le plus grand nombre de fois ?
 
 ```sql
