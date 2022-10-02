@@ -10,12 +10,8 @@ Binôme:
 
 [Dépot du code](https://forge.univ-lyon1.fr/p2111894/ggmd_tp2_code.git)
 
-A - Les requêtes SQL
+A - Les premiers résultats des requêtes SQL (sans optimisation)
 ---
-
-```bash
-psql --host=localhost --username=etum2 -d insee -f ~/tp2/sql/q0.sql > analyze-q0.json
-```
 
 ### Importer les regions, les departements et les communes de *ggmd_prof*
 
@@ -38,13 +34,14 @@ psql -h localhost -U etum2 -d insee -f ~/tp2/sql/import-data.sql
 #### Q1 - Le top 10 des personnes déclarées mortes le plus grand nombre de fois
 
 ```sql
-SELECT p.nomprenom, p.datenaiss, p.lieunaiss, COUNT(p.datedeces) as nb
-FROM personne p
-GROUP BY p.nomprenom, p.datenaiss, p.lieunaiss
-ORDER BY nb DESC
+SELECT nomprenom, datenaiss, lieunaiss, count(datedeces) as NB
+FROM personne
+GROUP BY nomprenom, datenaiss, lieunaiss
+ORDER BY NB DESC
 LIMIT 10;
 ```
 
+Les temps d'exécution de la requête:
 - Small: 16m 10s
 - Medium: 6m 43s
 - Large: 1m 12s
@@ -52,18 +49,21 @@ LIMIT 10;
 #### Q2 - Les homonymes (même nom et même premier prénom) qui sont nés la même année
 
 ```sql
-SELECT split_part(p1.nomprenom, '*', 1) as nom, 
-       split_part(split_part(REPLACE(p1.nomprenom, '/', ' '), '*', 2), ' ', 1) as prenom  
+SELECT split_part(p1.nomprenom, '*', 1)                                        as nom,
+       split_part(split_part(REPLACE(p1.nomprenom, '/', ' '), '*', 2), ' ', 1) as prenom
 FROM personne p1
-     JOIN personne p2 on substr(p1.datenaiss, 1, 4) = substr(p2.datenaiss, 1, 4)  
-          AND split_part(split_part(REPLACE(p1.nomprenom, '/', ' '), '*', 2), ' ', 1) = split_part(split_part(REPLACE(p2.nomprenom, '/', ' '), '*', 2), ' ', 1)  
-          AND split_part(p1.nomprenom, '*', 1) = split_part(p2.nomprenom, '*', 1)  
-          AND p1.lieunaiss != p2.lieunaiss  
+         JOIN personne p2
+              ON substr(p1.datenaiss, 1, 4) = substr(p2.datenaiss, 1, 4)
+                  AND split_part(split_part(REPLACE(p1.nomprenom, '/', ' '), '*', 2), ' ', 1) =
+                      split_part(split_part(REPLACE(p2.nomprenom, '/', ' '), '*', 2), ' ', 1)
+                  AND split_part(p1.nomprenom, '*', 1) = split_part(p2.nomprenom, '*', 1)
+                  AND p1.lieunaiss != p2.lieunaiss
 GROUP BY nom, prenom;
 ```
 
 Retourne au total **493 783 tuples**
 
+Les temps d'exécution de la requête:
 - Small: échoue (voir la section B.2)
 - Medium: 31m 24s (1 page avec 500 tuples)
 - Large: 4m 26s (1 page avec 500 tuples) et **17m 54s** (tous les tuples)
@@ -73,12 +73,13 @@ Retourne au total **493 783 tuples**
 ```sql
 SELECT r.reg,
        r.nom,
-       count(p.*) as nb,
-       justify_interval(((avg(to_date(p.datedeces, 'YYYYMMDD') -to_date(p.datenaiss, 'YYYYMMDD')))::varchar || ' days')::interval) as age_moyen
+       count(p.*)                            as nb,
+       justify_interval(((avg(to_date(p.datedeces, 'YYYYMMDD') - to_date(p.datenaiss, 'YYYYMMDD')))::varchar ||
+                         ' days')::interval) as age_moyen
 FROM region r
-     JOIN departement d on r.reg = d.reg
-     JOIN commune c on d.dep = c.dep
-     JOIN personne_clean p on c.com = p.lieunaiss
+         JOIN departement d on r.reg = d.reg
+         JOIN commune c on d.dep = c.dep
+         JOIN personne_clean p on c.com = p.lieunaiss
 GROUP BY r.reg, r.nom
 ORDER BY age_moyen DESC;
 ```
@@ -94,39 +95,49 @@ Pour pouvoir utiliser la fonction `TO_DATE` sans aucun problème, nous avons cr�
 
 La définition de la vue:
 ```sql
-CREATE OR REPLACE VIEW personne_clean AS (
-  SELECT *  
-  FROM personne  
-  WHERE date_isvalide(datenaiss)  
-    AND date_isvalide(datedeces)  
-    AND age_positif(datenaiss, datedeces)
-);
+CREATE OR REPLACE VIEW personne_clean AS
+SELECT *
+FROM personne
+WHERE date_isvalide(datenaiss)
+  AND date_isvalide(datedeces)
+  AND age_positif(datenaiss, datedeces);
+
+
+DROP MATERIALIZED VIEW IF EXISTS personne_clean_m;
+CREATE MATERIALIZED VIEW personne_clean_m AS
+SELECT *
+FROM personne
+WHERE date_isvalide(datenaiss)
+  AND date_isvalide(datedeces)
+  AND age_positif(datenaiss, datedeces);
+
 ```
 
 Une fonction pour vérifier si la date en entrée est valide ou pas:
 ```sql
 CREATE OR REPLACE FUNCTION date_isvalide(date text)
-  RETURNS boolean
-  LANGUAGE plpgsql
-  STRICT
+    RETURNS boolean
+    LANGUAGE plpgsql
+    STRICT
+    IMMUTABLE
 AS
 $function$
 BEGIN
-  RETURN date !~ '^[0-9]{4}[0-9]{2}00$'         -- date jour inconnu  
-     AND date !~ '^[0-9]{4}00[0-9]{2}$'         -- date mois inconnu  
-     AND date !~ '^0000[0-9]{2}[0-9]{2}$'       -- date annee inconnue  
-     AND date !~ '^[0-9]{4}(02|04|06|09|11)31$' -- date 31 d'un mois de moins de 31 jours  
-     AND date !~ '^[0-9]{4}0230$' -- date 30 février  
-     AND date NOT LIKE ''         -- date date de naissance inconnue  
-     AND (date !~ '^[0-9]{4}0229$'
-       OR (date ~ '^[0-9]{4}0229$'
-         AND substr(date, 1, 4)::int % 4 = 0
-         AND substr(date, 1, 4) != '1900'
-       )
-     );
-  EXCEPTION
+    RETURN date !~ '^[0-9]{4}[0-9]{2}00$' -- date jour inconnu
+        AND date !~ '^[0-9]{4}00[0-9]{2}$' -- date mois inconnu
+        AND date !~ '^0000[0-9]{2}[0-9]{2}$' -- date annee inconnue
+        AND date !~ '^[0-9]{4}(02|04|06|09|11)31$' -- date 31 d'un mois de moins de 31 jours
+        AND date !~ '^[0-9]{4}0230$' -- date 30 février
+        AND date NOT LIKE '' -- date date de naissance inconnue
+        AND (date !~ '^[0-9]{4}0229$'
+            OR (date ~ '^[0-9]{4}0229$'
+                AND substr(date, 1, 4)::int % 4 = 0
+                AND substr(date, 1, 4) != '1900'
+                 )
+               );
+EXCEPTION
     WHEN others THEN
-      RETURN FALSE;
+        RETURN FALSE;
 END;
 $function$;
 ```
@@ -134,16 +145,17 @@ $function$;
 Une fonction pour vérifier si l'age d'une personne est positif:
 ```sql
 CREATE OR REPLACE FUNCTION age_positif(datenaiss text, datedeces text)
-  RETURNS boolean
-  LANGUAGE plpgsql
-  STRICT
+    RETURNS boolean
+    LANGUAGE plpgsql
+    STRICT
+    IMMUTABLE
 AS
 $function$
 BEGIN
-  RETURN to_date(datedeces, 'YYYYMMDD') - to_date(datenaiss, 'YYYYMMDD') > 0;  
-  EXCEPTION
+    RETURN to_date(datedeces, 'YYYYMMDD') - to_date(datenaiss, 'YYYYMMDD') > 0;
+EXCEPTION
     WHEN others THEN
-      RETURN FALSE;
+        RETURN FALSE;
 END;
 $function$;
 ```
@@ -192,8 +204,9 @@ L'erreur est survenue à cause d'**espace de stockage insuffisant** pour sauvega
 #### Le plan d'exécution de la Q2:
 ![Q2](assets/q2-small-plan-exec-error.png)
 
-### 3 - Solutions possibles
+### 3 - Optimisations possibles
 
+#### Première proposition
 Le résultat de la commande ci-dessous montre qu'il n'y a que **3.3 GB d'espace disponible** sur la VM Small.
 ```bash
 ubuntu@grp-27-small:/tmp$ df -h
@@ -203,22 +216,76 @@ Filesystem      Size  Used Avail Use% Mounted on
 ```
 Une des solutions est d'augmenter l'espace attribué à cette VM.
 
+#### Autres solutions
+
+1) **Indexer les colonnes** de la table qui sont souvent utilisées pour trier les données (par exemple, les conditions dans la clause `WHERE`). Cela nous permettra d'éviter la recherche sequentielle lente dans la table, et à la place faire des recherches optimisées dans une table de plus petite taille contenant uniquement des indexes.
+2) **Optimiser la configuration** du SGBD PostgreSQL.
+
+Nous appliquerons ces solutions dans la section suivante.
+
 ### 4 - Appliquer un protocole de résolution
 
+#### Ajout de l'indexation
 
-#### Expérimentations GGMD1 - configuration 
+##### Indexes fonctionnels
+Etant donné le fait que nous utilisons des fonctions pour recupérer les noms et les prénoms, on pourrait optimiser les comparaisons en ajoutant des indexes fonctionnels.
 
-shared_buffers:             128MB     -> 1024MB
-effective_cache_size:       unsued    -> 1024MB
-wal_sync_method             unused    -> fsync
-wal_buffers                 unused    -> -1
-max_connections             100       -> 10
-work_mem                    unused    -> 512MB
-maintenance_work_mem        unused    -> 1024MB
-autovacuum_work_mem         unused    -> -1
-autovacuum                  unused    -> on
-track_counts                unused    -> on
+Par exemple, on peut créer une indexation suivante des prénoms:
+```sql
+CREATE INDEX idx_prenoms ON personne USING HASH (
+  split_part(split_part(REPLACE(nomprenom, '/', ' '), '*', 2), ' ', 1)
+);
+```
 
+Et une autre pour indexer les noms comme suit:
+```sql
+CREATE INDEX idx_noms ON personne USING HASH (
+  split_part(nomprenom, '*', 1)
+);
+```
+
+Indexation des années de naissance:
+```sql
+CREATE INDEX idx_annees_naiss ON personne (
+  substr(datenaiss, 1, 4)
+);
+```
+
+Pour l'age moyen des personnes:
+```sql
+CREATE INDEX idx_age_moyen ON personne (
+  justify_interval(
+    (
+      (
+        avg(
+          to_date(datedeces, 'YYYYMMDD') -
+          to_date(datenaiss, 'YYYYMMDD')
+        )
+      )::varchar || ' days'
+    )::interval
+  )
+);
+```
+
+##### Les algorithmes d'indexation utilisés
+Nous utilisons l'algorithm d'indexation par défaut (`B-Trees`) pour les comparaisons des **années**, car il correpond parfaitement pour les comparaisons des nombres.
+
+Pour **les noms** et **les prénoms**, l'algorithm d'indexation utilisé est `Hash`, car on n'utilise que l'opérateur `=`.
+
+#### Optimisation de la configuration
+
+| Paramètre | Ancienne valeur | Nouvelle valeur |
+| --- | --- | --- |
+| shared_buffers | 128MB | 1024MB |
+| effective_cache_size | unused | 1024MB |
+| wal_sync_method | unused | fsync |
+| wal_buffers | unused | -1 |
+| max_connections | 100 | 10 |
+| work_mem | unused | 512MB |
+| maintenance_work_mem | unused | 1024MB |
+| autovacuum_work_mem | unused | -1 |
+| autovacuum | unused | on |
+| track_counts | unused | on |
 
 C - Traitement des requêtes sur grp-XX-medium
 ---
