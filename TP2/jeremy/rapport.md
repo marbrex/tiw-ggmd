@@ -262,6 +262,8 @@ Je ne fais donc pas plus sur cette partie.
 
 ## Expérimentations GGMD2 - configuration
 
+Même configuration que pour la vm small car ici plus de ressources sont disponibles mais on a vu que sur small les changements de configuration ont fait crashé postgresql. 
+
 ### Q1
 Execution time: 8m 16s  
 Planning time: 416ms  
