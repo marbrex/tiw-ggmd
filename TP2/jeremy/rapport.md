@@ -109,9 +109,9 @@ Le plan d'execution n'est pas modifié et postgreql crash en executant la requê
 Execution time: 8m 28s  
 Planning time: 2s 323ms  
 Cost : 19 300 000  
-[Plan d'exécution json](plan_execution/small/q3/Q3_small_config_opti_on_personne.json)  
-[Plan d'exécution image](plan_execution/small/q3/Q3_small_config_opti_on_personne.png)  
-[Statistiques](plan_execution/small/q3/Q3_small_config_opti_on_personne_stats.png)  
+[Plan d'exécution json](plan_execution/small/q3/Q3_small_config_opti_on_personne_clean.json)  
+[Plan d'exécution image](plan_execution/small/q3/Q3_small_config_opti_on_personne_clean.png)  
+[Statistiques](plan_execution/small/q3/Q3_small_config_opti_on_personne_clean_stats.png)  
 
 Le plan d'execution n'est pas modifié et le cout est le même mais le temps d'execution ainsi que celui de planification sont allongés.
 
