@@ -1,6 +1,108 @@
 # A - Les requêtes SQL
 
-[Voir scripts/requetes.sql](scripts/requetes.sql)
+[Voir scripts/requete.sql](scripts/requete.sql)
+
+## Q1. Quel est le top 10 des personnes déclarées mortes le plus grand nombre de fois ?
+
+```sql
+SELECT nomprenom, datenaiss, lieunaiss, count(datedeces) as NB
+FROM personne
+GROUP BY nomprenom, datenaiss, lieunaiss
+ORDER BY NB DESC
+LIMIT 10;
+```
+
+## Q2. Quels sont les homonymes (même nom et même premier prénom) qui sont nés la même année ?
+
+```sql
+SELECT split_part(p1.nomprenom, '*', 1)                                        as nom,
+       split_part(split_part(REPLACE(p1.nomprenom, '/', ' '), '*', 2), ' ', 1) as prenom
+FROM personne p1
+         JOIN personne p2
+              ON substr(p1.datenaiss, 1, 4) = substr(p2.datenaiss, 1, 4)
+                  AND split_part(split_part(REPLACE(p1.nomprenom, '/', ' '), '*', 2), ' ', 1) =
+                      split_part(split_part(REPLACE(p2.nomprenom, '/', ' '), '*', 2), ' ', 1)
+                  AND split_part(p1.nomprenom, '*', 1) = split_part(p2.nomprenom, '*', 1)
+                  AND p1.lieunaiss != p2.lieunaiss
+GROUP BY nom, prenom;
+```
+
+## Q3. Quel est la durée de vie moyenne des personnes selon leur région de naissance ?
+
+On crée une fonction qui retourne si une date est valide ou non.
+
+```sql
+CREATE OR REPLACE FUNCTION date_isvalide(date text)
+    RETURNS boolean
+    LANGUAGE plpgsql
+    STRICT
+    IMMUTABLE
+AS
+$function$
+BEGIN
+    RETURN date !~ '^[0-9]{4}[0-9]{2}00$'                   -- jour inconnu
+        AND date !~ '^[0-9]{4}00[0-9]{2}$'                  -- mois inconnu
+        AND date !~ '^0000[0-9]{2}[0-9]{2}$'                -- annee inconnue
+        AND date !~ '^[0-9]{4}(02|04|06|09|11)31$'          -- 31 d'un mois de moins de 31 jours
+        AND date !~ '^[0-9]{4}0230$'                        -- 30 février
+        AND date NOT LIKE ''                                -- date de naissance inconnue
+        AND (date !~ '^[0-9]{4}0229$'
+            OR (date ~ '^[0-9]{4}0229$'
+                AND substr(date, 1, 4)::int % 4 = 0
+                AND substr(date, 1, 4) != '1900'
+                 )
+               );                                           -- 29 février bissextile
+EXCEPTION
+    WHEN others THEN
+        RETURN FALSE;
+END;
+$function$;
+```
+
+On crée une fonction qui retourne si l'age est positif ou non.
+
+```sql
+CREATE OR REPLACE FUNCTION age_positif(datenaiss text, datedeces text)
+    RETURNS boolean
+    LANGUAGE plpgsql
+    STRICT
+    IMMUTABLE
+AS
+$function$
+BEGIN
+    RETURN to_date(datedeces, 'YYYYMMDD') - to_date(datenaiss, 'YYYYMMDD') > 0;
+EXCEPTION
+    WHEN others THEN
+        RETURN FALSE;
+END;
+$function$;
+```
+
+On crée une vue qui contient les personnes avec des données sur les dates correctes.
+
+```sql
+CREATE OR REPLACE VIEW personne_clean AS
+SELECT *
+FROM personne
+WHERE date_isvalide(datenaiss)
+  AND date_isvalide(datedeces)
+  AND age_positif(datenaiss, datedeces);
+```
+La requête 
+
+```sql
+SELECT r.reg,
+       r.nom,
+       count(p.*)                            as nb,
+       justify_interval(((avg(to_date(p.datedeces, 'YYYYMMDD') - to_date(p.datenaiss, 'YYYYMMDD')))::varchar ||
+                         ' days')::interval) as age_moyen
+FROM region r
+         JOIN departement d on r.reg = d.reg
+         JOIN commune c on d.dep = c.dep
+         JOIN personne_clean p on c.com = p.lieunaiss
+GROUP BY r.reg, r.nom
+ORDER BY age_moyen DESC;
+```
 
 # B - Traitement des requêtes sur grp-XX-small
 
@@ -142,3 +244,31 @@ Cost : 19 300 000
 [Plan d'exécution json](plan_execution/medium/q3/Q3_medium_base_on_personne_clean.json)  
 [Plan d'exécution image](plan_execution/medium/q3/Q3_medium_base_on_personne_clean.png)  
 [Statistiques](plan_execution/medium/q3/Q3_medium_base_on_personne_clean_stats.png)  
+
+## Expérimentations GGMD2 - Index 
+
+Création d'un index sur les colonnes "nomprenom", "datenaiss" et "lieunaiss" de la table "personne" car le plan d'execution de la requête Q1 montre que ces colonnes sont utilisées pour le tri.
+```sql 
+CREATE INDEX idx_personne_nomprenom_naiss ON personne (nomprenom, datenaiss, lieunaiss);
+```
+Mauvaise idée, la requête Q1 est beaucoup plus longue à s'exécuter et le cout est plus élevé.
+
+### Q1
+Execution time: N/A (plus de 1h)   
+
+### Problèmes rencontrés
+
+Je ne comprends pas comment créer des index efficaces.
+
+Je ne fais donc pas plus sur cette partie.
+
+## Expérimentations GGMD2 - configuration
+
+### Q1
+Execution time: 8m 16s  
+Planning time: 416ms  
+Cout : 3 890 000
+[Plan d'exécution json](plan_execution/medium/q1/Q1_medium_config_opti_on_personne.json)  
+[Plan d'exécution image](plan_execution/medium/q1/Q1_medium_config_opti_on_personne.png)  
+[Statistiques](plan_execution/medium/q1/Q1_medium_config_opti_on_personne_stats.png)  
+
