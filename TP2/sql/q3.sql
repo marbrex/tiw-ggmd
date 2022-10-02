@@ -65,17 +65,3 @@ FROM region r
 GROUP BY r.reg, r.nom
 ORDER BY age_moyen DESC;
 
--- PERSONNE_PART
--- SELECT r.reg,
---        r.nom,
---        justify_interval(((avg(to_date(p.datedeces, 'YYYYMMDD') - to_date(p.datenaiss, 'YYYYMMDD')))::varchar ||
---                          ' days')::interval) as age_moyen
--- FROM region r
---          JOIN departement d on r.reg = d.reg
---          JOIN commune c on d.dep = c.dep
---          JOIN personne_part p on c.com = p.lieunaiss
--- WHERE date_isvalide(p.datedeces)
---   AND date_isvalide(p.datenaiss)
---   AND age_positif(p.datenaiss, p.datedeces)
--- GROUP BY r.reg, r.nom
--- ORDER BY age_moyen;
