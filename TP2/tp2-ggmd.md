@@ -218,8 +218,12 @@ Une des solutions est d'augmenter l'espace attribué à cette VM.
 
 #### Autres solutions
 
-1) **Indexer les colonnes** de la table qui sont souvent utilisées pour trier les données (par exemple, les conditions dans la clause `WHERE`). Cela nous permettra d'éviter la recherche sequentielle lente dans la table, et à la place faire des recherches optimisées dans une table de plus petite taille contenant uniquement des indexes.
-2) **Optimiser la configuration** du SGBD PostgreSQL.
+1) **Indexer les colonnes** de la table qui sont souvent utilisées pour trier les données (par exemple, les conditions dans la clause `WHERE`). Cela nous permettra d'éviter la recherche sequentielle lente dans la table, et à la place faire des recherches optimisées dans une table de plus petite taille contenant uniquement des indexes. <br/>
+    Les défauts de cette approche:
+    - Nécéssité de les créer au préalable (parfois prend trop de temps)
+    - Requiert plus d'espace disponible sur le disque
+<br/>
+1) **Optimiser la configuration** du SGBD PostgreSQL.
 
 Nous appliquerons ces solutions dans la section suivante.
 
