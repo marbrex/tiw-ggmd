@@ -19,6 +19,7 @@ FROM personne p1
 GROUP BY nom, prenom;
 
 -- Quelle est la durée de vie moyenne des personnes selon leur région de naissance ?
+explain (analyse, verbose, costs, buffers, timing, summary, FORMAT JSON)
 SELECT r.reg,
        r.nom,
        count(p.*)                            as nb,
