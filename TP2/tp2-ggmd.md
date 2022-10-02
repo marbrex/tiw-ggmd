@@ -225,7 +225,7 @@ Nous appliquerons ces solutions dans la section suivante.
 
 ### 4 - Appliquer un protocole de résolution
 
-#### Ajout de l'indexation
+#### 4.1 - Ajout de l'indexation
 
 ##### Indexes fonctionnels
 Etant donné le fait que nous utilisons des fonctions pour recupérer les noms et les prénoms, on pourrait optimiser les comparaisons en ajoutant des indexes fonctionnels.
@@ -272,8 +272,13 @@ Nous utilisons l'algorithm d'indexation par défaut (`B-Trees`) pour les compara
 
 Pour **les noms** et **les prénoms**, l'algorithm d'indexation utilisé est `Hash`, car on n'utilise que l'opérateur `=`.
 
-#### Optimisation de la configuration
+##### Comparaison des performances
 
+La VM Small n'a pas assez de place pour stocker toutes les tables d'indexation. En conséquence, nous n'avons pas pu tester tous les indexes ci-dessus. 
+
+#### 4.2 - Optimisation de la configuration
+
+##### Changements effectués
 | Paramètre | Ancienne valeur | Nouvelle valeur |
 | --- | --- | --- |
 | shared_buffers | 128MB | 1024MB |
@@ -286,6 +291,21 @@ Pour **les noms** et **les prénoms**, l'algorithm d'indexation utilisé est `Ha
 | autovacuum_work_mem | unused | -1 |
 | autovacuum | unused | on |
 | track_counts | unused | on |
+
+##### Comparaison des performances
+
+* **Q1**:
+  - Execution time: 8m 17s
+  - Planning time: 196ms  
+  - Cout : 3 890 000
+* **Q2**:
+  - Execution time: N/A
+  - Planning time: N/A
+  - Cout : 11 500 000
+* **Q3**:
+  - Execution time: 8m 28s  
+  - Planning time: 2s 323ms  
+  - Cost : 19 300 000
 
 C - Traitement des requêtes sur grp-XX-medium
 ---
