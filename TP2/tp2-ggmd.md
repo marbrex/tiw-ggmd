@@ -224,8 +224,9 @@ Une des solutions est d'augmenter l'espace attribué à cette VM.
     Les défauts de cette approche:
     - Nécéssité de les créer au préalable (parfois prend trop de temps)
     - Requiert plus d'espace disponible sur le disque
-<br/>
-1) **Optimiser la configuration** du SGBD PostgreSQL.
+
+
+2) **Optimiser la configuration** du SGBD PostgreSQL.
 
 Nous appliquerons ces solutions dans la section suivante.
 
@@ -325,8 +326,24 @@ De plus, le temps d'attente de la fin d'exécution des requêtes de création de
   - Planning time: 2s 323ms  
   - Cost : 19 300 000
 
+Liens vers les plans d'exécution sur explain.dalibo.com:
+
+| Requête | Lien |
+| --- | --- |
+| Q1 | [Q1 sur explain.dalibo.com](https://explain.dalibo.com/plan/a06g7g168ec2b8b7) |
+| Q2 | [Q2 sur explain.dalibo.com](https://explain.dalibo.com/plan/51dg1hfde99f2gb4) |
+| Q3 | [Q3 sur explain.dalibo.com](https://explain.dalibo.com/plan/4a938cgfgbcf8b4c) |
+
 C - Optimisation des requêtes sur grp-XX-medium
 ---
+
+#### Liens vers les plans d'exécution avant l'optimisation:
+
+| Requête | Lien |
+| --- | --- |
+| Q1 | [Q1 sur explain.dalibo.com](https://explain.dalibo.com/plan/91e465f765923fff) |
+| Q2 | [Q2 sur explain.dalibo.com](https://explain.dalibo.com/plan/7d2942c753d6fgb9) |
+| Q3 | [Q3 sur explain.dalibo.com](https://explain.dalibo.com/plan/42c84dbg6e8a7e77) |
 
 ### Après l'indexation
 
@@ -345,35 +362,31 @@ En utilisant les mêmes techniques d'optimisation présentées plus haut, on con
   - Planning time: 1,16ms
   - Cout : 11 500 000
 
-#### Les plans d'exécution:
-
-##### Q1 (temps d'exéc du `EXPLAIN`: )
-
-##### Q2 (temps d'exéc du `EXPLAIN`: 38m 35s)
-
-##### Q3 (temps d'exéc du `EXPLAIN`: 11m 21s)
+| Requête | Lien |
+| --- | --- |
+| Q2 | [Q2 sur explain.dalibo.com](https://explain.dalibo.com/plan/263257fbgd9f8g55) |
 
 D - Optimisation des requêtes sur grp-XX-large
 ---
 
-#### Les plans d'exécution:
+#### Liens vers les plans d'exécution avant l'optimisation:
 
-##### Q1 (temps d'exéc du `EXPLAIN`: )
-
-##### Q2 (temps d'exéc du `EXPLAIN`: 13m 20s)
-
-##### Q3 (temps d'exéc du `EXPLAIN`: 8m 21s)
+| Requête | Lien |
+| --- | --- |
+| Q1 | [Q1 sur explain.dalibo.com](https://explain.dalibo.com/plan/8e54a5d05636b558) |
+| Q2 | [Q2 sur explain.dalibo.com](https://explain.dalibo.com/plan/dbc1544739fha445) |
+| Q3 | [Q3 sur explain.dalibo.com](https://explain.dalibo.com/plan/1b9ad3edc7hb997e) |
 
 Graphiques
 ---
 
-Execution
+**Execution**
 ![Execution](jeremy/graphiques/execution.png)
 
-Planification
+**Planification**
 ![Execution](jeremy/graphiques/planification.png)
 
-Coût
+**Coût**
 ![Execution](jeremy/graphiques/cout.png)
 
 Problèmes rencontrées
