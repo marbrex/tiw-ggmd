@@ -394,3 +394,7 @@ Problèmes rencontrées
 
 ### Le temps d'attente de la fin d'exécution des differentes requêtes
 
+Nous avons effectué plusieurs tests avec différentes combinaisons des indexations et des configurations. Chaque test nous a pris beaucoup de temps (surtout sur la VM Small, car on ne peut pas les exécuter en parallèle) à cause des requêtes lourdes et des grandes masses de données. Par conséquent, nous n'avons pas eu assez de temps pour exécuter tout l'ensemble de tests que l'on voulait. De plus, les séances de TPs étaient un peu courtes.
+
+
+
