@@ -3,5 +3,6 @@
   "attachmentFolderPath": "/",
   "useTab": false,
   "tabSize": 2,
-  "fileSortOrder": "byModifiedTime"
+  "fileSortOrder": "byModifiedTime",
+  "showUnsupportedFiles": true
 }
