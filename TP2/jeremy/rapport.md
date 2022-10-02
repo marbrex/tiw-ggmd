@@ -126,3 +126,19 @@ Cout : 5 490 000
 [Plan d'exécution json](plan_execution/medium/q1/Q1_medium_base_on_personne.json)  
 [Plan d'exécution image](plan_execution/medium/q1/Q1_medium_base_on_personne.png)  
 [Statistiques](plan_execution/medium/q1/Q1_medium_base_on_personne_stats.png)  
+
+### Q2
+Execution time: 40m 40s  
+Planning time: 3,59ms  
+Cout : 13 200 000  
+[Plan d'exécution json](plan_execution/medium/q2/Q2_medium_base_on_personne.json)  
+[Plan d'exécution image](plan_execution/medium/q2/Q2_medium_base_on_personne.png)  
+[Statistiques](plan_execution/medium/q2/Q2_medium_base_on_personne_stats.png)  
+
+### Q3
+Execution time: 11m 27s  
+Planning time: 242ms  
+Cost : 19 300 000  
+[Plan d'exécution json](plan_execution/medium/q3/Q3_medium_base_on_personne_clean.json)  
+[Plan d'exécution image](plan_execution/medium/q3/Q3_medium_base_on_personne_clean.png)  
+[Statistiques](plan_execution/medium/q3/Q3_medium_base_on_personne_clean_stats.png)  
