@@ -8,12 +8,12 @@ Binôme:
 - Eldar Kasmamytov p1712650
 - Jérémy Gau p2111894
 
-[Dépot du code](https://forge.univ-lyon1.fr/p2111894/ggmd_tp2_code.git)
+[Dépot du code](https://forge.univ-lyon1.fr/p1712650/tiw-ggmd)
 
 A - Les premiers résultats des requêtes SQL (sans optimisation)
 ---
 
-### Importer les regions, les departements et les communes de *ggmd_prof*
+### 1 - Importer les regions, les departements et les communes de *ggmd_prof*
 
 Importer les scripts SQL du TP1 (voir [[tp1-ggmd|GGMD TP1]]) sur chacune des VMs. Après:
 
@@ -24,6 +24,8 @@ psql -h localhost -U postgres -d insee -f ~/tp2/sql/create-foreign-server.sql
 # en tant qu'etum2
 psql -h localhost -U etum2 -d insee -f ~/tp2/sql/import-data.sql
 ```
+
+> Ces requêtes sont disponibles dans le dépôt git sur la forge du département, le lien vers lequel vous pouvez trouver en haut de la page.
 
 ### 2 - Quelles différences observez-vous entre la table 'personnes' et la table 'personne'?
 
@@ -169,7 +171,7 @@ Le seul paramètre actif dans les configurations des VMs est:
 
 Les autres sont commentés.
 
-B - Traitement des requêtes sur grp-XX-small
+B - Optimisation des requêtes sur grp-XX-small
 ---
 
 ### 1 - Les requêtes pouvant être traitées sur la VM Small
@@ -232,7 +234,7 @@ Nous appliquerons ces solutions dans la section suivante.
 #### 4.1 - Ajout de l'indexation
 
 ##### Indexes fonctionnels
-Etant donné le fait que nous utilisons des fonctions pour recupérer les noms et les prénoms, on pourrait optimiser les comparaisons en ajoutant des indexes fonctionnels.
+Etant donné le fait que nous utilisons des fonctions pour récupérer les noms et les prénoms, on pourrait optimiser les comparaisons en ajoutant des indexes fonctionnels.
 
 Par exemple, on peut créer une indexation suivante des prénoms:
 ```sql
@@ -271,14 +273,26 @@ CREATE INDEX idx_age_moyen ON personne (
 );
 ```
 
+##### Indexes standards
+Dans la requête Q3, nous utilisons des jointures sur les attributs `region.reg`, `departement.dep` et `commune.com`. L'opérateur de comparaison utilisé est `=`.
+
+Ainsi, nous pouvons créer les indexations suivantes:
+```sql
+CREATE INDEX idx_region_id ON region (reg);
+CREATE INDEX idx_departement_id ON departement (dep);
+CREATE INDEX idx_commune_id ON commune (com);
+```
+
 ##### Les algorithmes d'indexation utilisés
 Nous utilisons l'algorithm d'indexation par défaut (`B-Trees`) pour les comparaisons des **années**, car il correpond parfaitement pour les comparaisons des nombres.
 
-Pour **les noms** et **les prénoms**, l'algorithm d'indexation utilisé est `Hash`, car on n'utilise que l'opérateur `=`.
+Pour **les noms** et **les prénoms**, l'algorithm d'indexation utilisé est `Hash`, car on n'utilise que l'opérateur `=`. 
 
 ##### Comparaison des performances
 
-La VM Small n'a pas assez de place pour stocker toutes les tables d'indexation. En conséquence, nous n'avons pas pu tester tous les indexes ci-dessus. 
+La VM Small n'a pas assez de place pour stocker toutes les tables d'indexation. En conséquence, nous n'avons pas pu tester tous les indexes ci-dessus.
+
+De plus, le temps d'attente de la fin d'exécution des requêtes de création des indexes est très long. Par exemple, l'indexation des prénoms sur la VM Small nous a pris plus d'une heure.
 
 #### 4.2 - Optimisation de la configuration
 
@@ -311,8 +325,25 @@ La VM Small n'a pas assez de place pour stocker toutes les tables d'indexation. 
   - Planning time: 2s 323ms  
   - Cost : 19 300 000
 
-C - Traitement des requêtes sur grp-XX-medium
+C - Optimisation des requêtes sur grp-XX-medium
 ---
+
+### Après l'indexation
+
+Création d'un index sur les colonnes "nomprenom", "datenaiss" et "lieunaiss" de la table "personne" car le plan d'execution de la requête Q1 montre que ces colonnes sont utilisées pour le tri.
+
+En utilisant les mêmes techniques d'optimisation présentées plus haut, on constate que c'est une mauvaise idée, car la requête Q1 est beaucoup plus longue à s'exécuter et le coût est plus élevé.
+
+### Après les changements de la configuration
+
+* **Q1**:
+  - Execution time: 8m 16s
+  - Planning time: 416ms
+  - Cout : 3 890 000
+* **Q2**:
+  - Execution time: 22m 45s
+  - Planning time: 1,16ms
+  - Cout : 11 500 000
 
 #### Les plans d'exécution:
 
@@ -322,7 +353,7 @@ C - Traitement des requêtes sur grp-XX-medium
 
 ##### Q3 (temps d'exéc du `EXPLAIN`: 11m 21s)
 
-D - Traitement des requêtes sur grp-XX-large
+D - Optimisation des requêtes sur grp-XX-large
 ---
 
 #### Les plans d'exécution:
@@ -332,4 +363,9 @@ D - Traitement des requêtes sur grp-XX-large
 ##### Q2 (temps d'exéc du `EXPLAIN`: 13m 20s)
 
 ##### Q3 (temps d'exéc du `EXPLAIN`: 8m 21s)
+
+Problèmes rencontrées
+---
+
+### Le temps d'attente de la fin d'exécution des differentes requêtes
 
