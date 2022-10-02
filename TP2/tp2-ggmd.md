@@ -364,6 +364,18 @@ D - Optimisation des requêtes sur grp-XX-large
 
 ##### Q3 (temps d'exéc du `EXPLAIN`: 8m 21s)
 
+Graphiques
+---
+
+Execution
+![Execution](jeremy/graphiques/execution.png)
+
+Planification
+![Execution](jeremy/graphiques/planification.png)
+
+Coût
+![Execution](jeremy/graphiques/cout.png)
+
 Problèmes rencontrées
 ---
 
