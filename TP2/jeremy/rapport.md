@@ -120,9 +120,9 @@ Le plan d'execution n'est pas modifié et le cout est le même mais le temps d'e
 ## Expérimentations GGMD1
 
 ### Q1
-Execution time:   
-Planning time:   
-Cout :   
+Execution time: 6m 57s  
+Planning time: 117ms  
+Cout : 5 490 000  
 [Plan d'exécution json](plan_execution/medium/q1/Q1_medium_base_on_personne.json)  
 [Plan d'exécution image](plan_execution/medium/q1/Q1_medium_base_on_personne.png)  
 [Statistiques](plan_execution/medium/q1/Q1_medium_base_on_personne_stats.png)  
