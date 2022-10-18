@@ -8,7 +8,8 @@ Schema
 
 ![](../assets/ggmd-insee-deces.png)
 
-# Exercice 1
+# Exercice 1 - SQL
+
 ## Q1
 
 projection sur la relation 'personnes'
@@ -61,6 +62,7 @@ WHERE cd.dep='63' AND to_char(p.datedeces, 'yyyy-mm')='2018-04'
 **Count:** 509
 
 ## Q3
+
 - v1 - **Count:** 3036725:
 
 ```sql
@@ -85,8 +87,9 @@ Pour ne pas compter les lieux de naissance dont la valeur on ne connait pas, ajo
 p.lieunaiss IS NOT NULL
 ```
 
-# Exercice 2
-## Q1
+# Exercice 2 - Fragmentation
+
+## Q1 - Plan de Fragmentation
 
 1) sur la table **region** -> fragmentation de type **horizontale**
 2) departement -> horizontale, derivee de region
@@ -109,11 +112,55 @@ p.lieunaiss IS NOT NULL
 
 7) replication logique de Paris et Marseille a partir de la table de Nantes
 
-## Q2
+## Q2 - En Algèbre Relationnelle
 
-sur feuille
+### C1 - Régions
 
-## Q3
+- Fragmentation horizontale \
+-> Opérateur de Séléction \
+-> Condition dans le `WHERE`
+
+![](../assets/ggmd-fragment-c1.jpg)
+
+### C2 - Départements
+
+- Fragmentation horizontale, derivee de region \
+Equivalent à `LEFT OUTER JOIN` avec `IS NULL` (Voir Ex1.Q3)
+
+Tous les departements qui existent dans la table `region1`. 
+
+![](../assets/ggmd-fragment-c2.jpg)
+
+De même, pour les deux autres...
+
+### C3 - Communes
+
+- Fragmentation horizontale, derivee de departement \
+Pareil que C2.
+
+### C4 - Les ages des personnes
+
+- Fragmentation verticale \
+-> Opérateur de Projéction \
+-> Attributs dans le `SELECT`
+
+![](../assets/ggmd-fragment-c4.jpg)
+
+### C5 - Naissances
+
+- Fragmentation hybride (ou mixte)
+
+![](../assets/ggmd-fragment-c5.jpg)
+
+De même, pour les deux autres...
+
+### C6 - Décès
+
+- Fragmentation hybride (ou mixte) \
+Pareil que C5, mais avec `datedeces`.
+
+## Q3 - Fragmentation Correcte
+
 Une fragmentation est dite **correcte** ssi:
 1) pas de pertes de donnees
 2) possibilite de reconstruire la relation de depart
@@ -126,6 +173,14 @@ Donc, cette fragmentation n'est pas correcte, car:
 
 # Exercice 3
 
-sur feuille
+## Regions, Departements et Communes
+
+![](../assets/ggmd-reconst-regions.jpg)
+
+## Personnes
+
+![](../assets/ggmd-reconst-personnes.jpg)
 
 # Exercice 4
+
+Voir la correction.
