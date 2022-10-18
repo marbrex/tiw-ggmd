@@ -5,7 +5,7 @@
   "showAttachments": false,
   "hideUnresolved": false,
   "showOrphans": true,
-  "collapse-color-groups": true,
+  "collapse-color-groups": false,
   "colorGroups": [
     {
       "query": "tag:#CM",
@@ -18,7 +18,7 @@
       "query": "tag:#TD",
       "color": {
         "a": 1,
-        "rgb": 5431420
+        "rgb": 14701221
       }
     },
     {

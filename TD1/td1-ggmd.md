@@ -3,6 +3,11 @@ tags: [TD]
 aliases: ["GGMD TD1", "TD1 de GGMD", "TD1"]
 ---
 
+Schema
+---
+
+![](../assets/ggmd-insee-deces.png)
+
 # Exercice 1
 ## Q1
 

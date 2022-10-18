@@ -1,7 +1,12 @@
 ---
 tags: [TP]
-aliases: ["GGMD TP1", "TP1 GGMD", "TP1"]
+aliases: ["GGMD TP1", "TP1 de GGMD", "TP1"]
 ---
+
+Schema
+---
+
+![](../assets/ggmd-insee-deces.png)
 
 A & B - Fragmentation
 ---
@@ -249,5 +254,42 @@ UPDATE mairie SET datemaj = 'TODAY' WHERE nomcom LIKE '%Villeurbanne%';
 ```
 
 D - Interrogation des fragments
+---
+
+### Pre-requisites
+
+1) Créer des serveurs pour Nantes et Marseille sur Paris.
+2) Associer des utilisateurs distants avec les locales.
+3) Créer des tables distantes.
+
+### Les requêtes
+
+Depuis la **VM Small (Paris)**:
+
+#### Q1
+
+```sql
+```
+
+#### Q2
+
+```sql
+```
+
+#### Q3
+
+```sql
+```
+
+E - Création des vues globales
+---
+
+### Regions
+
+```sql
+CREATE OR REPLACE VIEW region_full AS
+```
+
+BONUS - Gestion des contraintes d'intégrité globale
 ---
 
