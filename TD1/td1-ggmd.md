@@ -120,7 +120,7 @@ p.lieunaiss IS NOT NULL
 -> Opérateur de Séléction \
 -> Condition dans le `WHERE`
 
-![](../assets/ggmd-fragment-c1.jpg)
+![](../assets/ggmd-fragment-c1.png)
 
 ### C2 - Départements
 
@@ -129,7 +129,7 @@ Equivalent à `LEFT OUTER JOIN` avec `IS NULL` (Voir Ex1.Q3)
 
 Tous les departements qui existent dans la table `region1`. 
 
-![](../assets/ggmd-fragment-c2.jpg)
+![](../assets/ggmd-fragment-c2.png)
 
 De même, pour les deux autres...
 
@@ -144,13 +144,13 @@ Pareil que C2.
 -> Opérateur de Projéction \
 -> Attributs dans le `SELECT`
 
-![](../assets/ggmd-fragment-c4.jpg)
+![](../assets/ggmd-fragment-c4.png)
 
 ### C5 - Naissances
 
 - Fragmentation hybride (ou mixte)
 
-![](../assets/ggmd-fragment-c5.jpg)
+![](../assets/ggmd-fragment-c5.png)
 
 De même, pour les deux autres...
 
@@ -180,11 +180,11 @@ Donc, cette fragmentation n'est pas correcte, car:
 
 ## Regions, Departements et Communes
 
-![](../assets/ggmd-reconst-regions.jpg)
+![](../assets/ggmd-reconst-regions.png)
 
 ## Personnes
 
-![](../assets/ggmd-reconst-personnes.jpg)
+![](../assets/ggmd-reconst-personnes.png)
 
 # Exercice 4
 
