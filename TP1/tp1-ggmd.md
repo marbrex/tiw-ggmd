@@ -256,27 +256,27 @@ UPDATE mairie SET datemaj = 'TODAY' WHERE nomcom LIKE '%Villeurbanne%';
 D - Interrogation des fragments
 ---
 
-### Pre-requisites
+### Pre-requisites
 
-1) Créer des serveurs pour Nantes et Marseille sur Paris.
-2) Associer des utilisateurs distants avec les locales.
+1) Créer des serveurs pour Nantes et Marseille sur Paris. \
+2) Associer des utilisateurs distants avec les locales. \
 3) Créer des tables distantes.
 
-### Les requêtes
+### Les requêtes
 
 Depuis la **VM Small (Paris)**:
 
-#### Q1
+#### Q1
 
 ```sql
 ```
 
-#### Q2
+#### Q2
 
 ```sql
 ```
 
-#### Q3
+#### Q3
 
 ```sql
 ```
@@ -284,10 +284,10 @@ Depuis la **VM Small (Paris)**:
 E - Création des vues globales
 ---
 
-### Regions
+### Les régions
 
 ```sql
-CREATE OR REPLACE VIEW region_full AS
+CREATE OR REPLACE VIEW region_full AS
 ```
 
 BONUS - Gestion des contraintes d'intégrité globale
