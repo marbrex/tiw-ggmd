@@ -1,6 +1,6 @@
 {
   "useMarkdownLinks": true,
-  "attachmentFolderPath": "/",
+  "attachmentFolderPath": "assets",
   "useTab": false,
   "tabSize": 2,
   "fileSortOrder": "byModifiedTime",
