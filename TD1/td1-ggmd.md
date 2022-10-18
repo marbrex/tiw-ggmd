@@ -162,14 +162,19 @@ Pareil que C5, mais avec `datedeces`.
 ## Q3 - Fragmentation Correcte
 
 Une fragmentation est dite **correcte** ssi:
-1) pas de pertes de donnees
-2) possibilite de reconstruire la relation de depart
-	- -> inclure les cles primaires dans les fragments
-3) pas de duplication de donnees
-4) transparent pour l'utilisateur (acces unifie)
+
+* Complète
+  - pas de pertes de données
+* Reconstructible
+  - possibilité de reconstruire la relation de départ
+  -> inclure les cles primaires dans les fragments
+* Disjointe
+  - pas de duplication de données
+
+Et si possible, transparent pour l'utilisateur (accès unifié)
 
 Donc, cette fragmentation n'est pas correcte, car:
-- duplication de mairies + de noms et de prenoms
+- duplication de mairies + de noms et de prénoms
 
 # Exercice 3
 
