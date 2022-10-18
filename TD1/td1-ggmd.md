@@ -100,14 +100,14 @@ p.lieunaiss IS NOT NULL
 
 > Chaque fragment doit contenir la cle primaire de la relation de depart, afin de pouvoir de la reconstruire a partir de ces fragments. C'est une des conditions de la "Fragmentation Correcte".
 
-5) personne_info `JOIN` commune -> hybride
-	- horizontale -> verticale
+5) personne_info `JOIN` commune -> hybride (ou mixte)
+	- combinaison: horizontale et verticale
 	- attributs: (*idp*, nom, prenom, date**naiss**, lieu**naiss**)
 
-> Hybride: a la fois horizontale et verticale. 
+> Hybride (ou mixte): à la fois horizontale et verticale. 
 
-6) personne_info `JOIN` commune -> hybride
-	- horizontale -> verticale
+6) personne_info `JOIN` commune -> hybride (ou mixte)
+	- combinaison: horizontale et verticale
 	- attributs: (*idp*, nom, prenom, date**deces**, lieu**deces**)
 
 7) replication logique de Paris et Marseille a partir de la table de Nantes
@@ -117,7 +117,7 @@ p.lieunaiss IS NOT NULL
 ### C1 - Régions
 
 - Fragmentation horizontale \
--> Opérateur de Séléction \
+-> Opérateur de fragmentation: *Séléction* \
 -> Condition dans le `WHERE`
 
 ![](../assets/ggmd-fragment-c1.png)
@@ -125,7 +125,8 @@ p.lieunaiss IS NOT NULL
 ### C2 - Départements
 
 - Fragmentation horizontale, derivee de region \
-Equivalent à `LEFT OUTER JOIN` avec `IS NULL` (Voir Ex1.Q3)
+-> Opérateur de fragmentation: *Semi-Jointure* \
+-> Equivalent à `dep LEFT OUTER JOIN reg` avec `reg IS NULL` (Voir un exemple Ex1.Q3)
 
 Tous les departements qui existent dans la table `region1`. 
 
@@ -141,7 +142,7 @@ Pareil que C2.
 ### C4 - Les ages des personnes
 
 - Fragmentation verticale \
--> Opérateur de Projéction \
+-> Opérateur de fragmentation: *Projéction* \
 -> Attributs dans le `SELECT`
 
 ![](../assets/ggmd-fragment-c4.png)

@@ -262,6 +262,16 @@ D - Interrogation des fragments
 2) Associer des utilisateurs distants avec les locales. \
 3) Créer des tables distantes.
 
+### Stratégies (plans d'exécution)
+
+#### Tu demandes des données ? Alors tu fais les calculs..
+
+A chaque requête nécéssitant des données d'autres sites, il y aura un coût de:
+1) transfert de ces données du serveur distant au serveur local
+2) execution de la requête en locale
+
+#### Collaborative
+
 ### Les requêtes
 
 Depuis la **VM Small (Paris)**:

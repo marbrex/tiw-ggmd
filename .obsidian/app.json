@@ -4,5 +4,11 @@
   "useTab": false,
   "tabSize": 2,
   "fileSortOrder": "byModifiedTime",
-  "showUnsupportedFiles": true
+  "showUnsupportedFiles": true,
+  "pdfExportSettings": {
+    "pageSize": "Letter",
+    "landscape": false,
+    "margin": "2",
+    "downscalePercent": 100
+  }
 }
