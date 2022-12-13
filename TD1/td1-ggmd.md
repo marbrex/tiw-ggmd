@@ -189,4 +189,18 @@ Donc, cette fragmentation n'est pas correcte, car:
 
 # Exercice 4
 
-Voir la correction.
+## Q1 - Arbre algébrique A1, en fonction des vues globales
+
+![](../assets/ggmd-td1-exo4-1.png)
+
+## Q2 - Arbre algébrique A1', en fonction des fragments
+
+![](../assets/ggmd-td1-exo4-2.png)
+
+## Q3 - Simplifications sur A1'
+
+**Simplifications**
+![](../assets/ggmd-td1-exo4-3.png)
+
+**Arbre résultant A1''**
+![](../assets/ggmd-td1-exo4-4.png)
