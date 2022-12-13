@@ -126,7 +126,7 @@ p.lieunaiss IS NOT NULL
 
 - Fragmentation horizontale, derivee de region \
 -> Opérateur de fragmentation: *Semi-Jointure* \
--> Equivalent à `dep LEFT OUTER JOIN reg` avec `reg IS NULL` (Voir un exemple Ex1.Q3)
+-> Equivalent à `dep LEFT OUTER JOIN reg` avec `reg IS NOT NULL` (Voir un exemple Ex1.Q3)
 
 Tous les departements qui existent dans la table `region1`. 
 
